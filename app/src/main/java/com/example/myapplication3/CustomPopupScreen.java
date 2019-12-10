@@ -103,12 +103,12 @@ public class CustomPopupScreen extends AppCompatActivity {
             }
         });
 
-        btnRetry.setOnClickListener(new View.OnClickListener() {
+        /*btnRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 epicDialog.dismiss();
             }
-        });
+        });*/
 
 
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
