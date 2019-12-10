@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Demo App Dude</string>
+    <string name="positive_popup_default">Texto choreador donde va el detalle del pago Aprobado</string>
+    <string name="positive_title_default">Pago Aprobado Men</string>
+    <string name="negative_popup_default">El banco emisor de la tarjeta ha rechazado esta operacion</string>
+    <string name="negative_title_default">Pago Declinado </string>
+</resources>

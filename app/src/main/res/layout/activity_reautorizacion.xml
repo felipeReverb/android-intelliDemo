@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThirdActivity">
+
+    <EditText
+        android:id="@+id/editTextMonto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="Monto"
+        android:text=""
+        android:textAlignment="center"/>
+
+
+    <EditText
+        android:id="@+id/originalNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/editTextMonto"
+        android:layout_alignLeft="@id/editTextMonto"
+        android:layout_alignRight="@id/editTextMonto"
+        android:layout_alignStart="@id/editTextMonto"
+        android:layout_below="@id/editTextMonto"
+        android:layout_marginTop="65dp"
+        android:inputType="number"
+        android:hint="Numero de Operacion"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/AuthNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/originalNumber"
+        android:layout_alignLeft="@id/originalNumber"
+        android:layout_alignRight="@id/originalNumber"
+        android:layout_alignStart="@id/originalNumber"
+        android:layout_below="@id/originalNumber"
+        android:layout_marginTop="65dp"
+        android:inputType="text"
+        android:hint="Numero de Autorizacion"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/btnReautorizacion"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_centerHorizontal="true"
+        android:background="#6644aa"
+        android:text="Reutorizar"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/resultAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_above="@id/btnReautorizacion"
+        android:layout_centerHorizontal="true"
+        android:textSize="@android:dimen/app_icon_size"
+        />
+
+
+</RelativeLayout>
