@@ -69,18 +69,11 @@ public class ThirdActivity extends AppCompatActivity {
             String TrxAmount = data.getStringExtra("TrxAmount");
             String TrxCard = data.getStringExtra("TrxCard");
             String TrxAuthNumber = data.getStringExtra("TrxAuthNumber");
-            String TrxOrgNumber = data.getStringExtra("TrxOrgNumber");
-            String TrxCardType = data.getStringExtra("TrxCardType");
-            String TrxMerchant = data.getStringExtra("TrxMerchant");
-            String TrxARQC = data.getStringExtra("TrxARQC");
-            String TrxAID = data.getStringExtra("TrxAID");
-            String TrxBank = data.getStringExtra("TrxBank");
-            String TrxCardInstrument = data.getStringExtra("TrxCardInstrument");
-            String TrxPaymentMode = data.getStringExtra("TrxPaymentMode");
-            String TrxReference = data.getStringExtra("TrxReference");
-            String TrxRoomNbr = data.getStringExtra("TrxRoomNbr");
 
+            //Mostrar el Popup con los detalles del resultado de la operacion
             ShowPositivePopup("Autorizacion: "+TrxAuthNumber,"Monto: "+TrxAmount, "Tarjeta: "+TrxCard);
+
+            //Limpiar textviews de Monto y referencia
             montoVenta.setText("");
             referenceVenta.setText("");
         }
