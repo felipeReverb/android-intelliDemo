@@ -70,7 +70,7 @@
                     android:layout_marginBottom="20dp"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:text="@string/positive_popup_default"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDark">
                 </TextView>
 
@@ -82,7 +82,7 @@
                     android:layout_marginBottom="10dp"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:text="Mas texto men pero en Negrita"
+                    android:text="Gracias por tu pago"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimaryDark">
                 </TextView>

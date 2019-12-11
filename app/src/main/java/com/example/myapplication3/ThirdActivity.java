@@ -1,13 +1,18 @@
 package com.example.myapplication3;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ThirdActivity extends AppCompatActivity {
@@ -15,7 +20,14 @@ public class ThirdActivity extends AppCompatActivity {
     private EditText montoVenta;
     private EditText referenceVenta;
     private Button btnPay;
-    private TextView txtDisplayVenta;
+    private Dialog epicDialog;
+    private Button btnAccept;
+    private Button btnRetry;
+    private ImageView closePopupPositiveImg;
+    private ImageView closePopupNegativeImg;
+    private TextView approvedResponseText;
+    private TextView approvedPaymentDetailsText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +38,9 @@ public class ThirdActivity extends AppCompatActivity {
         montoVenta = (EditText) findViewById(R.id.montoVenta);
         referenceVenta = (EditText) findViewById(R.id.referenceVenta);
         btnPay = (Button) findViewById(R.id.imageButtonPay);
-        txtDisplayVenta = (TextView) findViewById(R.id.resultVenta);
+
+        //Se instancia el dialog
+        epicDialog = new Dialog(this);
 
         //Boton para invocar el pago
         btnPay.setOnClickListener(new View.OnClickListener() {
@@ -66,10 +80,68 @@ public class ThirdActivity extends AppCompatActivity {
             String TrxReference = data.getStringExtra("TrxReference");
             String TrxRoomNbr = data.getStringExtra("TrxRoomNbr");
 
-            txtDisplayVenta.setText("Pago: "+TrxResult+"\n"+"Monto: "+TrxAmount+"\n"+"Autorizacion: "+TrxAuthNumber);
+            ShowPositivePopup("Autorizacion: "+TrxAuthNumber,"Monto: "+TrxAmount, "Tarjeta: "+TrxCard);
             montoVenta.setText("");
             referenceVenta.setText("");
         }
+    }
+
+    public void ShowPositivePopup(String AuthRes, String MontoRes, String cardNumberRes){
+
+        epicDialog.setContentView(R.layout.epic_popup_positive);
+        closePopupPositiveImg = (ImageView) epicDialog.findViewById(R.id.closePopupPositiveImg);
+        btnAccept = (Button) epicDialog.findViewById(R.id.btnAccept);
+        approvedResponseText = (TextView) epicDialog.findViewById(R.id.approvedResponseText);
+        approvedPaymentDetailsText = (TextView) epicDialog.findViewById(R.id.approvedPaymentDetailsText);
+        approvedPaymentDetailsText.setText(AuthRes + "\n" + MontoRes + "\n" + cardNumberRes);
+
+
+        closePopupPositiveImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epicDialog.dismiss();
+            }
+        });
+
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epicDialog.dismiss();
+            }
+        });
+
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+
+
+    }
+
+    // 2.- Funcion para abir el pop up de pago Declinado
+    public void ShowNegativePopup(){
+        epicDialog.setContentView(R.layout.epic_popup_negative);
+        closePopupNegativeImg = (ImageView) epicDialog.findViewById(R.id.closePopupNegativeImgDude);
+        btnRetry = (Button) epicDialog.findViewById(R.id.btnRetry);
+        approvedResponseText = (TextView) epicDialog.findViewById(R.id.approvedResponseText);
+        approvedPaymentDetailsText = (TextView) epicDialog.findViewById(R.id.approvedPaymentDetailsText);
+
+        closePopupNegativeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epicDialog.dismiss();
+            }
+        });
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                epicDialog.dismiss();
+            }
+        });
+
+
+        epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        epicDialog.show();
+
     }
 
 }
