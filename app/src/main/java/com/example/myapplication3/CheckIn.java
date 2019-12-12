@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CheckIn extends AppCompatActivity {
 
@@ -53,19 +54,11 @@ public class CheckIn extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 222) { //Este es el número de Bundle que usaste en el Intent
+        if (requestCode == 222 && data != null && resultCode != 0 ) { //Este es el número de Bundle que usaste en el Intent
             String TrxResult = data.getStringExtra("TrxResult");
             String TrxAmount = data.getStringExtra("TrxAmount");
             String TrxCard = data.getStringExtra("TrxCard");
             String TrxAuthNumber = data.getStringExtra("TrxAuthNumber");
-            String TrxOrgNumber = data.getStringExtra("TrxOrgNumber");
-            String TrxCardType = data.getStringExtra("TrxCardType");
-            String TrxMerchant = data.getStringExtra("TrxMerchant");
-            String TrxARQC = data.getStringExtra("TrxARQC");
-            String TrxAID = data.getStringExtra("TrxAID");
-            String TrxBank = data.getStringExtra("TrxBank");
-            String TrxCardInstrument = data.getStringExtra("TrxCardInstrument");
-            String TrxPaymentMode = data.getStringExtra("TrxPaymentMode");
             String TrxReference = data.getStringExtra("TrxReference");
             String TrxRoomNbr = data.getStringExtra("TrxRoomNbr");
 
@@ -73,6 +66,9 @@ public class CheckIn extends AppCompatActivity {
             editTxtMonto.setText("");
             editTxtReferencia.setText("");
             editTxtRoom.setText("");
+        } else {
+            Toast.makeText(this,"No se recibio algun codigo o info de respuesta",Toast.LENGTH_LONG).show();
+
         }
     }
 }
