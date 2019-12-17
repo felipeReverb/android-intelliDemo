@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ThirdActivity extends AppCompatActivity {
 
@@ -39,9 +40,6 @@ public class ThirdActivity extends AppCompatActivity {
         referenceVenta = (EditText) findViewById(R.id.referenceVenta);
         btnPay = (Button) findViewById(R.id.imageButtonPay);
 
-        //Se instancia el dialog
-        epicDialog = new Dialog(this);
-
         //Boton para invocar el pago
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +50,7 @@ public class ThirdActivity extends AppCompatActivity {
                 String uri2 = "https://execute-payment/pay?License=5FW3fT5v-R7G3&TrxType=1&PType=1&TrxCurrency=1&TrxAmount="+monto+"&TrxReference="+reference+"Factura100&TrxFValue=E1&TrxUser=Cajero1&TrxPaymentMode=0,3";
 
                 Intent intentVenta = new Intent(Intent.ACTION_VIEW,Uri.parse(uri2));
-                startActivityForResult(intentVenta,111);
+                startActivityForResult(intentVenta,222);
 
             }
         });
@@ -64,20 +62,36 @@ public class ThirdActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 111) { //Este es el número de Bundle que usaste en el Intent men
-            String TrxResult = data.getStringExtra("TrxResult");
-            String TrxAmount = data.getStringExtra("TrxAmount");
-            String TrxCard = data.getStringExtra("TrxCard");
-            String TrxAuthNumber = data.getStringExtra("TrxAuthNumber");
+        if (requestCode == 222 && data != null && resultCode != 0) {
+            String TrxResult = data.getStringExtra("TrxResult"); // se obtiene el string que contiene el resultado del cobro para poder evaluarlo
 
-            //Mostrar el Popup con los detalles del resultado de la operacion
-            ShowPositivePopup("Autorizacion: "+TrxAuthNumber,"Monto: "+TrxAmount, "Tarjeta: "+TrxCard);
+            if(TrxResult.equals("Approved") && TrxResult != null){
+                String TrxAmount = data.getStringExtra("TrxAmount");
+                String TrxCard = data.getStringExtra("TrxCard");
+                String TrxAuthNumber = data.getStringExtra("TrxAuthNumber");
+                epicDialog = new Dialog(this); //Se instancia el dialog para mostrar el Popup con los detalles del resultado de la operacion
+                ShowPositivePopup("Autorizacion: "+TrxAuthNumber,"Monto: "+TrxAmount, "Tarjeta: "+TrxCard);
+                //Limpiar textviews de Monto y referencia
+                montoVenta.setText("");
+                referenceVenta.setText("");
+            }else if (TrxResult.equals("Denied") && TrxResult != null){ //flujo para delcinado
+                epicDialog = new Dialog(this);
+                ShowNegativePopup();
+                montoVenta.setText("");
+                referenceVenta.setText("");
+                //Toast.makeText(this,"Entro al else del pago declinado men",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this,"Ocurrio un error men, ",Toast.LENGTH_LONG).show();
+                montoVenta.setText("");
+                referenceVenta.setText("");
+            }
+        } else {
+            Toast.makeText(this,"ERROR!-.No se recibio algun codigo o info de respuesta",Toast.LENGTH_LONG).show();
 
-            //Limpiar textviews de Monto y referencia
-            montoVenta.setText("");
-            referenceVenta.setText("");
         }
     }
+
+    //Funcion para Mostrar el popup aprobado
 
     public void ShowPositivePopup(String AuthRes, String MontoRes, String cardNumberRes){
 
