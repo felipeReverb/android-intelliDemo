@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class ThirdActivity extends AppCompatActivity {
 
@@ -16,6 +18,9 @@ public class ThirdActivity extends AppCompatActivity {
     private EditText referenceVenta;
     private Button btnPay;
     private TextView txtDisplayVenta;
+    private static int PAYMENT_PROCESS_RESULT = 222;
+    private static int REPORT_PROCESS_RESULT = 322;
+    private static int CARD_PROCESS_RESULT = 422;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,23 @@ public class ThirdActivity extends AppCompatActivity {
                 //String trxType = "1";
                 String monto = montoVenta.getText().toString();
                 String reference = referenceVenta.getText().toString();
-                String uri2 = "https://execute-payment/pay?License=5FW3fT5v-R7G3&TrxType=1&PType=1&TrxCurrency=1&TrxAmount="+monto+"&TrxReference="+reference+"Factura100&TrxFValue=E1&TrxUser=Cajero1&TrxPaymentMode=0,3";
+                String url = "https://integration.intelipos.io/payment/sale";
+                String licencia = "ZmE5NjQxNDctYjIyNC00ZDUxLWJjZDYtZGYxZTkyN2JhYzM0";
 
-                Intent intentVenta = new Intent(Intent.ACTION_VIEW,Uri.parse(uri2));
-                startActivityForResult(intentVenta,111);
+
+                Transaction transaction = new Transaction();
+                transaction.setLicense(licencia);
+                transaction.setTrxAmount(monto);
+                transaction.setTrxCurrency("1");
+                transaction.setTrxReference(reference);
+                transaction.setUrl(url);
+
+                Gson gson = new Gson();
+                String json = gson.toJson(transaction);
+                System.out.println("json = " + json);
+
+                Intent intentVenta = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+                startActivityForResult(intentVenta,PAYMENT_PROCESS_RESULT);
 
             }
         });
