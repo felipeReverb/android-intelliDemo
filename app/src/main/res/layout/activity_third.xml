@@ -7,6 +7,24 @@
     tools:context=".ThirdActivity">
 
     <EditText
+        android:id="@+id/PaymentMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/referenceVenta"
+        android:layout_alignStart="@id/referenceVenta"
+        android:layout_alignLeft="@id/referenceVenta"
+        android:layout_alignEnd="@id/referenceVenta"
+        android:layout_alignRight="@id/referenceVenta"
+        android:layout_marginStart="-3dp"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:hint="PaymentMode"
+        android:inputType="text"
+        android:textAlignment="center" />
+
+    <EditText
         android:id="@+id/montoVenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

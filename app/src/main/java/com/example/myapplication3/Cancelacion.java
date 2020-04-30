@@ -1,14 +1,17 @@
 package com.example.myapplication3;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
 
 public class Cancelacion extends AppCompatActivity {
 
@@ -17,6 +20,7 @@ public class Cancelacion extends AppCompatActivity {
     private EditText editTxtOpNum;
     private Button btnCancel;
     private TextView cancelResultDude;
+    private static int PAYMENT_PROCESS_RESULT = 222;
 
 
     @Override
@@ -38,9 +42,20 @@ public class Cancelacion extends AppCompatActivity {
                 String amount = editTxtMonto.getText().toString();
                 String authNumber = editTxtAuth.getText().toString();
                 String opNumber = editTxtOpNum.getText().toString();
-                String uri = "https://execute-payment/pay?License=5FW3fT5v-R7G3&TrxType=6&PType=1&TrxAmount="+amount+"&TrxCurrency=1&TrxOriginalNumber="+opNumber+"&TrxAuthNumber="+authNumber+"TrxUser=Cajero1";
-                Intent intentCancelMen = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                startActivityForResult(intentCancelMen,222);
+                String uri3 = "https://integration.intelipos.io/payment/refund";
+               // String uri = "https://execute-payment/pay?License=5FW3fT5v-R7G3&TrxType=6&PType=1&TrxAmount="+amount+"&TrxCurrency=1&TrxOriginalNumber="+opNumber+"&TrxAuthNumber="+authNumber+"TrxUser=Cajero1";
+                //Intent intentCancelMen = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                //startActivityForResult(intentCancelMen,222);
+
+                Gson gson = new Gson();
+                Cancelation Cancelar = new Cancelation("OGQ4MzJlMjEtZmU0MC00OWIxLThlZWYtNmIwZjQ4MGNiNDg2", amount,"1",opNumber,uri3,authNumber);
+                String json = gson.toJson(Cancelar);
+
+
+                //Intent intentVenta = new Intent(Intent.ACTION_VIEW,Uri.parse(uri2));
+                Intent intentVenta = new Intent(Intent.ACTION_VIEW, Uri.parse(uri3));
+                intentVenta.putExtra("request", json);
+                startActivityForResult(intentVenta, PAYMENT_PROCESS_RESULT);
             }
         });
 
@@ -51,28 +66,24 @@ public class Cancelacion extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 222) { //Este es el número de Bundle que usaste en el Intent
+        if (requestCode == 222 && data != null ) { //Este es el número de Bundle que usaste en el Intent we, por lo que te deberia de regresar el mismo
+            String response = data.getStringExtra("response");
             String TrxResult = data.getStringExtra("TrxResult");
             String TrxAmount = data.getStringExtra("TrxAmount");
             String TrxCard = data.getStringExtra("TrxCard");
             String TrxAuthNumber = data.getStringExtra("TrxAuthNumber");
-            String TrxOrgNumber = data.getStringExtra("TrxOrgNumber");
-            String TrxCardType = data.getStringExtra("TrxCardType");
-            String TrxMerchant = data.getStringExtra("TrxMerchant");
-            String TrxARQC = data.getStringExtra("TrxARQC");
-            String TrxAID = data.getStringExtra("TrxAID");
-            String TrxBank = data.getStringExtra("TrxBank");
-            String TrxCardInstrument = data.getStringExtra("TrxCardInstrument");
-            String TrxPaymentMode = data.getStringExtra("TrxPaymentMode");
-            String TrxReference = data.getStringExtra("TrxReference");
-            String TrxRoomNbr = data.getStringExtra("TrxRoomNbr");
+            String NumOperacion = data.getStringExtra("TrxOriginalNumber");
+                cancelResultDude.setText("Response: "+ "\n"+TrxResult+"\n"+response);
+                editTxtMonto.setText("");
+                editTxtAuth.setText("");
+                editTxtOpNum.setText("");
+            }else {
+                Toast.makeText(this,"No se recibio algun codigo o info de respuesta",Toast.LENGTH_LONG).show();
+            }
 
-            cancelResultDude.setText("Response: "+TrxResult);
-            editTxtMonto.setText("");
-            editTxtAuth.setText("");
-            editTxtOpNum.setText("");
         }
+
     }
 
 
-}
+
